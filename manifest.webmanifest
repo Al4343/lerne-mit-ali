@@ -7,5 +7,19 @@
   "display": "standalone",
   "background_color": "#050b14",
   "theme_color": "#07111f",
-  "description": "تعلم الألمانية بالعربية للمبتدئين"
+  "description": "تعلم الألمانية بالعربية للمبتدئين",
+  "icons": [
+    {
+      "src": "./ali-avatar.jpg?v=2",
+      "sizes": "180x180",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "./ali-avatar.jpg?v=2",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
 }
