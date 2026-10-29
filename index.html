@@ -198,17 +198,61 @@ const pronouns=[['ich','أنا','lerne'],['du','أنت','lernst'],['er','هو','
 const sein=[['ich','bin','أنا أكون'],['du','bist','أنت تكون'],['er / sie / es','ist','هو / هي يكون'],['wir','sind','نحن نكون'],['ihr','seid','أنتم تكونون'],['sie / Sie','sind','هم يكونون / حضرتك تكون']];
 const haben=[['ich','habe','أنا أملك'],['du','hast','أنت تملك'],['er / sie / es','hat','هو / هي يملك'],['wir','haben','نحن نملك'],['ihr','habt','أنتم تملكون'],['sie / Sie','haben','هم يملكون / حضرتك تملك']];
 const articleRows=[['der','مذكر','der Mann = الرجل'],['die','مؤنث','die Frau = المرأة'],['das','محايد','das Kind = الطفل'],['die','جمع','die Kinder = الأطفال']];
+const translations=[
+'أنا علي. نحن نتعلّم الألمانية.',
+'أنا متعب. لدي وقت.',
+'أنا أتعلم. أنت تتعلم. هو يتعلم.',
+'الطاولة · المصباح · الكتاب · الكتب.',
+'طاولة · حقيبة · أنا أرى رجلاً.',
+'ليس لدي سيارة. أنا لست متعباً.',
+'أنا أسكن في بون. أين تسكن؟',
+'هذا أخي. هذه أختي.',
+'أستيقظ الساعة السابعة.',
+'لا أستطيع المجيء اليوم.',
+'الساعة الثامنة · يوم الاثنين · في مايو · في برلين.',
+'لقد تعلمت الألمانية. لقد ذهبت إلى المنزل.',
+'أنا أرى الرجل. أنا أشتري حقيبة.',
+'أتعلم الألمانية لأنني أعيش في ألمانيا.'
+];
+const quizzes=[
+{q:'ما معنى الضمير ich؟',opts:['أنا','أنت','نحن'],c:0},
+{q:'أكمل: Ich ___ Ali. (sein)',opts:['bist','bin','sind'],c:1},
+{q:'ما التصريف الصحيح؟ Du ___ Deutsch.',opts:['lerne','lernst','lernen'],c:1},
+{q:'ما أداة التعريف الصحيحة لكلمة Frau؟',opts:['der','die','das'],c:1},
+{q:'اختر العبارة الصحيحة: أرى رجلاً.',opts:['Ich sehe ein Mann.','Ich sehe einen Mann.','Ich sehe eine Mann.'],c:1},
+{q:'كيف تقول: ليس لدي سيارة؟',opts:['Ich habe nicht Auto.','Ich habe kein Auto.','Ich bin kein Auto.'],c:1},
+{q:'أي ترتيب صحيح لسؤال نعم/لا؟',opts:['Du wohnst hier? (صيغة السؤال الأساسية)','Wohnst du hier?','Hier du wohnst?'],c:1},
+{q:'أكمل: Das ist ___ Mutter.',opts:['mein','meine','meinen'],c:1},
+{q:'أين يأتي الجزء المنفصل في الجملة؟',opts:['غالباً في نهاية الجملة','دائماً في البداية','لا ينفصل أبداً'],c:0},
+{q:'أكمل: Ich kann heute nicht ___.',opts:['komme','kommen','kommt'],c:1},
+{q:'أي تعبير صحيح مع الساعة؟',opts:['am acht Uhr','im acht Uhr','um acht Uhr'],c:2},
+{q:'ما التركيب المستخدم للماضي القريب؟',opts:['haben/sein + Partizip II','werden + Infinitiv دائماً','nur Infinitiv'],c:0},
+{q:'اختر المفعول به الصحيح: Ich sehe ___ Mann.',opts:['der','den','dem'],c:1},
+{q:'ما ترتيب الفعل بعد denn؟',opts:['يبقى ترتيب الجملة العادي','يذهب الفعل دائماً للنهاية','يأتي المصدر فقط'],c:0}
+];
 const table=(heads,rows)=>'<div class="table-wrap"><table class="vocab-table grammar-table"><thead><tr>'+heads.map(h=>'<th>'+h+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>';
 document.getElementById('grammarList').innerHTML=grammar.map((g,i)=>{
 let structured='';
 if(i===0) structured=table(['الضمير','المعنى','تصريف lernen'],pronouns);
-else if(i===1) structured='<h4>الفعل sein (يكون)</h4>'+table(['الضمير','التصريف','المعنى'],sein)+'<h4>الفعل haben (يملك)</h4>'+table(['الضمير','التصريف','المعنى'],haben);
+else if(i===1) structured='<h4>الفعل sein (يكون)</h4>'+table(['الضمير','التصريف','المعنى'],sein)+'<h4>الفعل haben (يملك / لديه)</h4>'+table(['الضمير','التصريف','المعنى'],haben);
 else if(i===2) structured=table(['الضمير','النهاية','مثال: lernen'],[['ich','-e','ich lerne'],['du','-st','du lernst'],['er / sie / es','-t','er lernt'],['wir','-en','wir lernen'],['ihr','-t','ihr lernt'],['sie / Sie','-en','sie lernen']]);
 else if(i===3) structured=table(['الأداة','الجنس النحوي','مثال ومعناه'],articleRows);
 else structured=table(['العنصر','الشرح / المثال'],[['القاعدة',g[1]],['مثال بالألمانية',g[2]],['ملاحظة',g[3]]]);
-return '<article class="grammar-card" style="margin-bottom:12px"><span class="tag">قاعدة '+(i+1)+'</span><h3>'+g[0]+'</h3>'+structured+'<div class="callout de">'+g[2]+'</div><button class="secondary" data-speak="'+g[2]+'">🔊 استمع إلى المثال</button></article>';
+const q=quizzes[i];
+const question='<div class="exercise grammar-quiz" data-grammar-quiz="'+i+'"><h4>اختبر نفسك — السؤال '+(i+1)+'</h4><p>'+q.q+'</p><div class="options">'+q.opts.map((o,j)=>'<button class="option" data-grammar-answer="'+i+'" data-choice="'+j+'">'+o+'</button>').join('')+'</div><div class="feedback" id="grammarFeedback'+i+'">اختر إجابة ليصححها لك الموقع ويعرض الإجابة الصحيحة.</div></div>';
+return '<article class="grammar-card" style="margin-bottom:12px"><span class="tag">قاعدة '+(i+1)+'</span><h3>'+g[0]+'</h3>'+structured+'<div class="callout"><b>المثال بالألمانية:</b><div class="de">'+g[2]+'</div><p><b>ترجمة المثال:</b> '+translations[i]+'</p></div><button class="secondary" data-speak="'+g[2]+'">🔊 استمع إلى المثال</button>'+question+'</article>';
 }).join('');
 }
+document.addEventListener('click',e=>{
+const ga=e.target.closest('[data-grammar-answer]');
+if(!ga)return;
+const idx=+ga.dataset.grammarAnswer, choice=+ga.dataset.choice;
+const q=[{opts:['أنا','أنت','نحن'],c:0},{opts:['bist','bin','sind'],c:1},{opts:['lerne','lernst','lernen'],c:1},{opts:['der','die','das'],c:1},{opts:['Ich sehe ein Mann.','Ich sehe einen Mann.','Ich sehe eine Mann.'],c:1},{opts:['Ich habe nicht Auto.','Ich habe kein Auto.','Ich bin kein Auto.'],c:1},{opts:['Du wohnst hier? (صيغة السؤال الأساسية)','Wohnst du hier?','Hier du wohnst?'],c:1},{opts:['mein','meine','meinen'],c:1},{opts:['غالباً في نهاية الجملة','دائماً في البداية','لا ينفصل أبداً'],c:0},{opts:['komme','kommen','kommt'],c:1},{opts:['am acht Uhr','im acht Uhr','um acht Uhr'],c:2},{opts:['haben/sein + Partizip II','werden + Infinitiv دائماً','nur Infinitiv'],c:0},{opts:['der','den','dem'],c:1},{opts:['يبقى ترتيب الجملة العادي','يذهب الفعل دائماً للنهاية','يأتي المصدر فقط'],c:0}][idx];
+const box=ga.closest('.grammar-quiz');
+box.querySelectorAll('[data-grammar-answer]').forEach(b=>{b.disabled=true;if(+b.dataset.choice===q.c)b.classList.add('correct')});
+if(choice!==q.c)ga.classList.add('wrong');
+document.getElementById('grammarFeedback'+idx).textContent=choice===q.c?'✅ إجابة صحيحة، أحسنت!':'❌ إجابتك غير صحيحة. الإجابة الصحيحة: '+q.opts[q.c];
+});
 function renderListening(){document.getElementById('listeningList').innerHTML=listenings.map((l,i)=>`<article class="content-block"><h3>${l.title}</h3><p class="de">${l.de}</p><p class="muted">${l.ar}</p><div class="tools"><button class="primary" data-speak="${l.de}">▶ تشغيل</button><button data-speak="${l.de}" onclick="setTimeout(()=>{},0)">🔁 إعادة الاستماع</button><button data-stop>■ إيقاف</button><button class="secondary" data-listen-quiz="${i}">سؤال الفهم</button></div><div id="listen-q-${i}" class="exercise hide"><p>${l.q}</p><div class="options">${l.opts.map((o,j)=>`<button class="option" data-answer data-correct="${j===l.c}">${o}</button>`).join('')}</div><div class="feedback">${l.e}</div></div></article>`).join('')}
 function renderReading(){document.getElementById('readingList').innerHTML=readings.map((r,i)=>`<article class="content-block"><h3>${r.title}</h3><div class="read-text de">${r.text.replace(/\n/g,'<br>')}</div><button class="secondary" data-speak="${r.text.replace(/\n/g,' ')}">🔊 استمع إلى النص</button><div class="exercise"><p>${r.q}</p><div class="options">${r.opts.map((o,j)=>`<button class="option" data-answer data-correct="${j===r.c}">${o}</button>`).join('')}</div><div class="feedback">${r.e}</div></div></article>`).join('')}
 function renderDialog(){const i=+document.getElementById('dialogSelect').value;const d=dialogs[i];document.getElementById('dialogBody').innerHTML=d[0].map((line,j)=>`<div class="dialog-line"><b>${j%2?'B':'A'}</b><span><span class="de">${line}</span><small class="muted">${d[1][j]}</small></span><button class="mini-btn" data-speak="${line}">🔊</button></div>`).join('')}
