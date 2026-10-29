@@ -10,8 +10,8 @@
   "description": "تعلم الألمانية بالعربية للمبتدئين",
   "icons": [
     {
-      "src": "./ali-avatar.jpg?v=2",
-      "sizes": "180x180",
+      "src": "./favicon.jpg?v=3",
+      "sizes": "128x128",
       "type": "image/jpeg",
       "purpose": "any"
     }
